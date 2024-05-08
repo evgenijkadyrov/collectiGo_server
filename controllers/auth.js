@@ -42,7 +42,7 @@ const createCollection = async (req, res) => {
         const userId = req.user.id;
         const user = await User.findById(userId);
         console.log(user)
-        user?.collections.push(newCollection._id);
+        user?.collections.unshift(newCollection._id);
 
         await user?.save();
         res.status(201).json({
