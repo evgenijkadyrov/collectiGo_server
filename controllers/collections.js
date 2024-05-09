@@ -1,4 +1,5 @@
 const { Collection} = require('../models/collection')
+const {User} = require('../models/user');
 const moment = require("moment-timezone");
 
 
@@ -14,7 +15,7 @@ const createCollection = async (req, res) => {
     try {
         const {title, category, picture} = req.body;
         const currentDateUTC = new Date()
-        const currentDateBLR = moment(currentDateUTC).tz('Europe/Minsk').add(3, 'hours')
+        const currentDateBLR = moment(currentDateUTC).tz('Europe/Minsk')
         const newCollection = await Collection.create({
             title: title,
             category: category,
@@ -39,6 +40,7 @@ const createCollection = async (req, res) => {
 };
 const deleteCollection = async (req, res) => {
     try {
+        debugger
         const collectionId = req.params.id;
 
         const deletedCollection = await Collection.findByIdAndDelete(collectionId);
@@ -46,11 +48,12 @@ const deleteCollection = async (req, res) => {
         if (!deletedCollection) {
             return res.status(404).json({ message: 'Collection not found' });
         }
-
-        const userId = req.user.id;
-        const user = await User.findById(userId);
-        user.collections = user.collections.filter(collection => collection.toString() !== collectionId);
-        await user.save();
+        // const userId = req.user.id;
+        // const user = await User.findById(userId);
+        // console.log(user)
+        // user.collections = user.collections.filter(collection => collection.toString() !== collectionId);
+        // console.log(user.collections)
+        // await user.save();
 
         res.status(200).json({ message: 'Collection deleted successfully' });
     } catch (err) {
