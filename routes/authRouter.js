@@ -2,8 +2,11 @@ const Router = require('express')
 const {
     getUsers,
     registerUser,
-    login,getCollections,createCollection
+    login
 } = require("../controllers/auth");
+const {
+   getCollections,createCollection
+} = require("../controllers/collections");
 
 const router = new Router()
 const {check} = require("express-validator")
