@@ -27,25 +27,9 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
-const collectionSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    picture: {
-        type: String,
-        required: false
-    }
-});
 
-const Collection = mongoose.model('Collection', collectionSchema);
 const User = mongoose.model('User', userSchema);
 
 module.exports = {
-    Collection,
     User
 };
