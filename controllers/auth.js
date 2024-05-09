@@ -20,8 +20,6 @@ const getUsers = async (req, res) => {
 }
 
 const registerUser = async (req, res) => {
-    debugger
-    console.log(req.body)
         const {email, password, name} = req.body;
         if (!email || !password || !name) {
             return res.status(400).json({message: 'Check field email, password, name'});
