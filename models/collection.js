@@ -12,6 +12,10 @@ const collectionSchema = new mongoose.Schema({
     picture: {
         type: String,
         required: false
+    },
+    createdAt:{
+        type:String,
+        required:false
     }
 });
 
