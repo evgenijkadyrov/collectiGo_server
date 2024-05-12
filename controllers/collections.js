@@ -40,7 +40,6 @@ const createCollection = async (req, res) => {
 };
 const deleteCollection = async (req, res) => {
     try {
-        debugger
         const collectionId = req.params.id;
 
         const deletedCollection = await Collection.findByIdAndDelete(collectionId);
@@ -61,4 +60,35 @@ const deleteCollection = async (req, res) => {
         res.status(500).json({ message: 'Failed to delete collection' });
     }
 };
-module.exports = { getCollections, createCollection,deleteCollection}
+const updateCollection = async (req, res) => {
+    try {
+        const collectionId = req.params.id;
+        const { title, category, picture } = req.body;
+        const currentDateUTC = new Date();
+        const currentDateBLR = moment(currentDateUTC).tz('Europe/Minsk');
+
+        const updatedCollection = await Collection.findByIdAndUpdate(
+            collectionId,
+            {
+                title: title,
+                category: category,
+                picture: picture,
+                createdAt: currentDateBLR,
+            },
+            { new: true }
+        );
+
+        if (!updatedCollection) {
+            return res.status(404).json({ message: 'Collection not found' });
+        }
+
+        res.status(200).json({
+            message: 'Collection updated successfully',
+            collection: updatedCollection,
+        });
+    } catch (err) {
+        console.error('Error updating collection:', err);
+        res.status(500).json({ message: 'Failed to update collection' });
+    }
+};
+module.exports = { getCollections, createCollection,deleteCollection,updateCollection}
