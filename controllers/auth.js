@@ -77,7 +77,7 @@ const login = async (req, res) => {
         user.lastLogin = currentDateBLR.toISOString().replace('T', ' ').slice(0, 19);
         await user.save();
         const token = generateAccessToken(user.id, user.email)
-        return res.json({token, user})
+        return res.status(200).json({token, user, message:"User login success"})
 
     } catch (err) {
         res.status(400).json({message: "Login error", err})
