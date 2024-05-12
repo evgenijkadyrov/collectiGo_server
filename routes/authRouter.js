@@ -5,7 +5,7 @@ const {
     login
 } = require("../controllers/auth");
 const {
-   getCollections,createCollection,deleteCollection
+   getCollections,createCollection,deleteCollection, updateCollection
 } = require("../controllers/collections");
 
 const router = new Router()
@@ -16,6 +16,7 @@ router.get('/users',getUsers)
 router.get('/collections',getCollections)
 router.post('/collections', authMiddleware,createCollection)
 router.delete('/collections/:id', authMiddleware,deleteCollection)
+router.put('/collections/:id', authMiddleware,updateCollection)
 
 router.post('/register',
 //     [check(
