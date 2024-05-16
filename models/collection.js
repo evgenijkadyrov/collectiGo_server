@@ -16,6 +16,30 @@ const collectionSchema = new mongoose.Schema({
     createdAt:{
         type:String,
         required:false
+    },
+    custom_string1_state:{
+        type:String,
+        required:false
+    },
+    custom_string1_name:{
+        type:String,
+        required:false
+    },
+    custom_string2_state:{
+        type:String,
+        required:false
+    },
+    custom_string2_name:{
+        type:String,
+        required:false
+    },
+    custom_string3_state:{
+        type:String,
+        required:false
+    },
+    custom_string3_name:{
+        type:String,
+        required:false
     }
 });
 

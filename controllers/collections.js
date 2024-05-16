@@ -8,21 +8,26 @@ const getCollections = async (req, res) => {
         const collections = await Collection.find().sort({ createdAt: -1 })
         res.status(200).json(collections)
     } catch (err) {
-        res.status(500).json({message: "Failed to receive users"})
+        res.status(500).json({message: "Failed to receive collections"})
     }
 }
 const createCollection = async (req, res) => {
     try {
-        const {title, category, picture} = req.body;
+        const {title, category, picture,custom_string1_name,custom_string2_name,custom_string3_name,custom_string1_state,custom_string2_state,custom_string3_state} = req.body;
         const currentDateUTC = new Date()
         const currentDateBLR = moment(currentDateUTC).tz('Europe/Minsk')
-        const newCollection = await Collection.create({
+        const newCollectionData = {
             title: title,
             category: category,
             picture: picture,
-            createdAt:currentDateBLR,
+            createdAt: currentDateBLR,
+        };
 
-        });
+        newCollectionData[custom_string1_state] = custom_string1_name;
+        newCollectionData[custom_string2_state] = custom_string2_name;
+        newCollectionData[custom_string3_state] = custom_string3_name;
+
+        const newCollection = await Collection.create(newCollectionData);
         await newCollection.save();
         const userId = req.user.id;
         const user = await User.findById(userId);
