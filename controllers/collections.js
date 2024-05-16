@@ -13,19 +13,24 @@ const getCollections = async (req, res) => {
 }
 const createCollection = async (req, res) => {
     try {
-        const {title, category, picture,custom_string1_name,custom_string2_name,custom_string3_name,custom_string1_state,custom_string2_state,custom_string3_state} = req.body;
+        const {name, category, image_url,description, optionalFields} = req.body;
         const currentDateUTC = new Date()
         const currentDateBLR = moment(currentDateUTC).tz('Europe/Minsk')
         const newCollectionData = {
-            title: title,
+            name: name,
             category: category,
-            picture: picture,
+            image_url: image_url,
+            description: description,
             createdAt: currentDateBLR,
         };
+        optionalFields.forEach((field, index) => {
 
-        newCollectionData[custom_string1_state] = custom_string1_name;
-        newCollectionData[custom_string2_state] = custom_string2_name;
-        newCollectionData[custom_string3_state] = custom_string3_name;
+            newCollectionData[`custom_string${index + 1}_state`] = true;
+            newCollectionData[`custom_string${index + 1}_name`] = field.name;
+
+
+        });
+
 
         const newCollection = await Collection.create(newCollectionData);
         await newCollection.save();
@@ -68,16 +73,17 @@ const deleteCollection = async (req, res) => {
 const updateCollection = async (req, res) => {
     try {
         const collectionId = req.params.id;
-        const { title, category, picture } = req.body;
+        const { name, category, image_url, description } = req.body;
         const currentDateUTC = new Date();
         const currentDateBLR = moment(currentDateUTC).tz('Europe/Minsk');
 
         const updatedCollection = await Collection.findByIdAndUpdate(
             collectionId,
             {
-                title: title,
+                name: name,
                 category: category,
-                picture: picture,
+                image_url: image_url,
+                description:description,
                 createdAt: currentDateBLR,
             },
             { new: true }
