@@ -31,7 +31,6 @@ const createCollection = async (req, res) => {
 
         });
 
-
         const newCollection = await Collection.create(newCollectionData);
         await newCollection.save();
         const userId = req.user.id;
