@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const collectionSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: true
     },
@@ -9,7 +9,11 @@ const collectionSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    picture: {
+    image_url: {
+        type: String,
+        required: false
+    },
+    description: {
         type: String,
         required: false
     },
@@ -18,7 +22,7 @@ const collectionSchema = new mongoose.Schema({
         required:false
     },
     custom_string1_state:{
-        type:String,
+        type:Boolean,
         required:false
     },
     custom_string1_name:{
@@ -26,7 +30,7 @@ const collectionSchema = new mongoose.Schema({
         required:false
     },
     custom_string2_state:{
-        type:String,
+        type:Boolean,
         required:false
     },
     custom_string2_name:{
@@ -34,7 +38,7 @@ const collectionSchema = new mongoose.Schema({
         required:false
     },
     custom_string3_state:{
-        type:String,
+        type:Boolean,
         required:false
     },
     custom_string3_name:{
@@ -42,6 +46,7 @@ const collectionSchema = new mongoose.Schema({
         required:false
     }
 });
+
 
 const Collection = mongoose.model('Collection', collectionSchema);
 module.exports = {
