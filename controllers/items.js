@@ -1,5 +1,6 @@
 const {User} = require("../models/user");
 const {Item} = require("../models/item");
+const {Collection} = require("../models/collection");
 
 const fetchItems = async (req, res) => {
     try {
@@ -12,9 +13,11 @@ const fetchItems = async (req, res) => {
 }
 const createItem = async (req, res) => {
     try {
-        const {name, tags, custom_string1_name,
+        const {
+            name, tags, custom_string1_name,
             custom_string2_name,
-            custom_string3_name} = req.body;
+            custom_string3_name
+        } = req.body;
         const collectionId = req.params.id
         const userId = req.user.id;
         const user = await User.findById(userId);
@@ -26,9 +29,9 @@ const createItem = async (req, res) => {
             author: user.name,
             tags: tags,
             collection_id: collectionId,
-            custom_string1_name:custom_string1_name||null,
-            custom_string2_name:custom_string2_name || null,
-            custom_string3_name:custom_string3_name ||null,
+            custom_string1_name: custom_string1_name || null,
+            custom_string2_name: custom_string2_name || null,
+            custom_string3_name: custom_string3_name || null,
             custom_string1_state: !!custom_string1_name,
             custom_string2_state: !!custom_string2_name,
             custom_string3_state: !!custom_string3_name,
@@ -45,4 +48,58 @@ const createItem = async (req, res) => {
         res.status(500).json({message: 'Failed to create item'});
     }
 };
-module.exports = {createItem, getItems: fetchItems}
+const deleteItem = async (req, res) => {
+    try {
+        const itemId = req.params.id;
+
+        const deletedItem = await Item.findByIdAndDelete(itemId);
+
+        if (!deletedItem) {
+            return res.status(404).json({message: 'Item not found'});
+        }
+
+
+        res.status(200).json({message: 'Item deleted successfully'});
+    } catch (err) {
+        console.error('Error deleting item:', err);
+        res.status(500).json({message: 'Failed to delete item'});
+    }
+};
+const updateItem = async (req, res) => {
+    try {
+
+        const {
+            name, tags, custom_string1_name,
+            custom_string2_name,
+            custom_string3_name
+        } = req.body;
+        const itemId = req.params.id
+
+        const newItemData = {
+            name: name,
+            tags: tags,
+            custom_string1_name: custom_string1_name || null,
+            custom_string2_name: custom_string2_name || null,
+            custom_string3_name: custom_string3_name || null,
+            custom_string1_state: !!custom_string1_name,
+            custom_string2_state: !!custom_string2_name,
+            custom_string3_state: !!custom_string3_name,
+
+        };
+        const newItem = await Item.findByIdAndUpdate(itemId, newItemData, {new: true});
+        if (!newItem) {
+            return res.status(404).json({message: 'Item not found'});
+        }
+
+
+        await newItem.save();
+        res.status(201).json({
+            message: 'Item updated successfully',
+            item: newItem
+        });
+    } catch (err) {
+        console.error('Error update item:', err);
+        res.status(500).json({message: 'Failed to update item'});
+    }
+};
+module.exports = {createItem, getItems: fetchItems, deleteItem, updateItem}
