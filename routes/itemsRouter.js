@@ -8,7 +8,7 @@ const authMiddleware = require('../authMiddleware/authMiddleWare')
 
 
 router.post('/', authMiddleware, createItem)
-router.get('/', fetchItems)
+router.get('/:id', fetchItems)
 router.delete('/:id', authMiddleware, deleteItem)
 router.put('/:id', authMiddleware, updateItem)
 
