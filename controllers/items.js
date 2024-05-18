@@ -1,6 +1,5 @@
 const {User} = require("../models/user");
 const {Item} = require("../models/item");
-const {Collection} = require("../models/collection");
 
 const fetchItems = async (req, res) => {
     try {
@@ -26,7 +25,7 @@ const createItem = async (req, res) => {
         }
         const newItemData = {
             name: name,
-            author: user.name,
+            createdBy: user.name,
             tags: tags,
             collection_id: collectionId,
             custom_string1_name: custom_string1_name || null,
@@ -102,4 +101,4 @@ const updateItem = async (req, res) => {
         res.status(500).json({message: 'Failed to update item'});
     }
 };
-module.exports = {createItem, getItems: fetchItems, deleteItem, updateItem}
+module.exports = {createItem, fetchItems, deleteItem, updateItem}

@@ -5,7 +5,7 @@ const itemSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    author: {
+    createdBy: {
         type: String,
         required: true
     },

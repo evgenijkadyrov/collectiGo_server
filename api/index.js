@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const authRouter = require('../routes/authRouter')
+const itemsRouter = require('../routes/itemsRouter')
+const collectionsRouter = require('../routes/collectionsRouter')
 
 const app = express()
 require('dotenv').config()
@@ -12,6 +14,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.use('/auth', authRouter)
+app.use('/items', itemsRouter)
+app.use('/collections', collectionsRouter)
 
 
 const start = async () => {
