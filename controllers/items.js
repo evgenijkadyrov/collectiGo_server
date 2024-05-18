@@ -12,7 +12,9 @@ const fetchItems = async (req, res) => {
 }
 const createItem = async (req, res) => {
     try {
-        const {name, tags} = req.body;
+        const {name, tags, custom_string1_name,
+            custom_string2_name,
+            custom_string3_name} = req.body;
         const collectionId = req.params.id
         const userId = req.user.id;
         const user = await User.findById(userId);
@@ -23,7 +25,14 @@ const createItem = async (req, res) => {
             name: name,
             author: user.name,
             tags: tags,
-            collection_id: collectionId
+            collection_id: collectionId,
+            custom_string1_name:custom_string1_name||null,
+            custom_string2_name:custom_string2_name || null,
+            custom_string3_name:custom_string3_name ||null,
+            custom_string1_state: !!custom_string1_name,
+            custom_string2_state: !!custom_string2_name,
+            custom_string3_state: !!custom_string3_name,
+
         };
         const newItem = await Item.create(newItemData);
         await newItem.save();
