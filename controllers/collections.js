@@ -56,12 +56,11 @@ const deleteCollection = async (req, res) => {
         if (!deletedCollection) {
             return res.status(404).json({ message: 'Collection not found' });
         }
-        // const userId = req.user.id;
-        // const user = await User.findById(userId);
-        // console.log(user)
-        // user.collections = user.collections.filter(collection => collection.toString() !== collectionId);
-        // console.log(user.collections)
-        // await user.save();
+        debugger
+        const userId = req.user.id;
+        const user = await User.findById(userId);
+        user.collections = user.collections.filter(collection => collection.toString() !== collectionId);
+        await user.save();
 
         res.status(200).json({ message: 'Collection deleted successfully' });
     } catch (err) {
