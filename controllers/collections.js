@@ -23,7 +23,7 @@ const createCollection = async (req, res) => {
             description: description,
             createdAt: currentDateBLR,
         };
-        optionalFields.forEach((field, index) => {
+        optionalFields?.forEach((field, index) => {
 
             newCollectionData[`custom_string${index + 1}_state`] = true;
             newCollectionData[`custom_string${index + 1}_name`] = field.name;
