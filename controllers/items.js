@@ -1,5 +1,6 @@
 const {User} = require("../models/user");
 const {Item} = require("../models/item");
+const {Collection} = require("../models/collection");
 
 const fetchItems = async (req, res) => {
     try {
@@ -38,6 +39,9 @@ const createItem = async (req, res) => {
         };
         const newItem = await Item.create(newItemData);
         await newItem.save();
+        const collection = await Collection.findById(collectionId);
+        collection?.items.unshift(newItem._id);
+        await collection?.save();
         res.status(201).json({
             message: 'Item created successfully',
             item: newItem
@@ -56,6 +60,10 @@ const deleteItem = async (req, res) => {
         if (!deletedItem) {
             return res.status(404).json({message: 'Item not found'});
         }
+        const collectionId = req.body;
+        const collection = await Collection.findById(collectionId);
+        collection.items = collection.items.filter(item => item.toString() !== itemId);
+        await collection.save();
 
 
         res.status(200).json({message: 'Item deleted successfully'});

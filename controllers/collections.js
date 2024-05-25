@@ -56,7 +56,6 @@ const deleteCollection = async (req, res) => {
         if (!deletedCollection) {
             return res.status(404).json({ message: 'Collection not found' });
         }
-        debugger
         const userId = req.user.id;
         const user = await User.findById(userId);
         user.collections = user.collections.filter(collection => collection.toString() !== collectionId);
