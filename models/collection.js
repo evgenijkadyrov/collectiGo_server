@@ -44,6 +44,10 @@ const collectionSchema = new mongoose.Schema({
     custom_string3_name:{
         type:String,
         required:false
+    },
+    items:{
+        type:Array,
+        required:false
     }
 });
 
