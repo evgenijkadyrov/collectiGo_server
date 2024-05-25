@@ -1,5 +1,6 @@
 const { Collection} = require('../models/collection')
 const {User} = require('../models/user');
+const {Item} = require('../models/item');
 const moment = require("moment-timezone");
 
 
@@ -60,8 +61,13 @@ const deleteCollection = async (req, res) => {
         const user = await User.findById(userId);
         user.collections = user.collections.filter(collection => collection.toString() !== collectionId);
         await user.save();
+        const deletionResult = await Item.deleteMany({ collection_id: collectionId });
 
-        res.status(200).json({ message: 'Collection deleted successfully' });
+        if (deletionResult.deletedCount === 0) {
+            console.log('No items deleted for collection:', collectionId);
+        }
+
+        res.status(200).json({ message: `Collection and ${deletionResult.deletedCount } associated items deleted successfully` });
     } catch (err) {
         console.error('Error deleting collection:', err);
         res.status(500).json({ message: 'Failed to delete collection' });

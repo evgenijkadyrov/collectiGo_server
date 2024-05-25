@@ -5,6 +5,7 @@ const {Collection} = require("../models/collection");
 const fetchItems = async (req, res) => {
     try {
         const collectionId = req.params.id
+
         const items = await Item.find({collection_id: collectionId})
         res.status(200).json({message: 'Items getting success', items})
     } catch (err) {
@@ -60,7 +61,7 @@ const deleteItem = async (req, res) => {
         if (!deletedItem) {
             return res.status(404).json({message: 'Item not found'});
         }
-        const collectionId = req.body;
+        const collectionId = deletedItem.collection_id;
         const collection = await Collection.findById(collectionId);
         collection.items = collection.items.filter(item => item.toString() !== itemId);
         await collection.save();
