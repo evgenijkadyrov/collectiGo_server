@@ -45,10 +45,10 @@ const collectionSchema = new mongoose.Schema({
         type:String,
         required:false
     },
-    items:{
-        type:Array,
-        required:false
-    }
+    items: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Item'
+    }]
 });
 
 
